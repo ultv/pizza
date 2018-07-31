@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block h1 %}
+Список заказов
+{% endblock %}
+
+{% block content %}
+  {% for num, order in orders.items() %}
+      <form method = "post">
+        {% for status, time in order['status'].items() %}
+          <div class="form-row">
+            <div class="form-group col-md-1">
+              Заказ №{{ num }}
+            </div>
+            <div class="form-group col-md-2">
+              Дата: {{ time.day }}-{{ time.month }}-{{ time.year }}
+            </div>
+            <div class="form-group col-md-2">
+              Время: {{ time.hour }}: {{ time.minute }}
+            </div>
+          </div>
+          <div class="form-row align-items-center">
+            <div class="form-group col-md-1">
+              Статус:
+            </div>
+            <div class="form-group col-md-2">
+              {{ status }}
+            </div>
+            <div class="form-group col-md-3">
+              <select name="select_status" size="1">
+              <option selected value="Выбрать статус">Выбрать статус</option>
+              <option value="{{num }}-Поступил">Поступил</option>
+              <option value="{{num }}-Отправлен на кухню">Отправлен на кухню</option>
+              <option value="{{num }}-Отправлен в доставку">Отправлен в доставку</option>
+              <option value="{{num }}-Доставлен">Доставлен</option>
+              </select>
+            </div>
+            <div class="form-group col-md-2">
+              <button type="submit" class="btn btn-primary">Сохранить статус</button>
+            </div>
+          </div>
+        {% endfor %}
+
+        {% for key, value in order['pizza'].items() %}
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              {{ key }} - {{ value }} шт.
+            </div>
+          </div>
+        {% endfor %}
+
+        <div class="form-row">
+          <div class="form-group col-md-1">
+            Имя:
+          </div>
+          <div class="form-group col-md-11">
+            {{ order['client']['name'] }}
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-1">
+            Фамилия:
+          </div>
+          <div class="form-group col-md-11">
+            {{ order['client']['surname'] }}
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-1">
+            Адрес:
+          </div>
+          <div class="form-group col-md-11">
+            {{ order['client']['adress'] }}
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-1">
+            Телефон:
+          </div>
+          <div class="form-group col-md-11">
+            {{ order['client']['phone'] }}
+          </div>
+        </div>
+
+
+      </form>
+    <hr>
+  {% endfor %}
+{% endblock %}
